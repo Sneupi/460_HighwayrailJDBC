@@ -30,8 +30,8 @@ public class Scrubber {
             System.err.println("Usage: Scrubber.java <csv | csv list>\n");
             return;
         }
-        
-        // Allow iteration over multiple CSV 
+
+        // Allow iteration over multiple CSV
         for (int i = 0; i < args.length; i++) {
             if (!args[i].endsWith(".csv") || !(new File(args[i]).exists())) {
                 System.err.println(String.format("Invalid csv: \"%s\"\n", args[i]));
@@ -57,11 +57,11 @@ public class Scrubber {
             try {
                 String[] parts = line.split(",");
 
-                LocalDate.parse(parts[3]); // Date
-                LocalTime.parse(parts[4], formatter); // Time
-                Integer.parseInt(parts[7]); // Temperature
-                Integer.parseInt(parts[10]); // # Locomotive Units
-                Integer.parseInt(parts[11]); // # Cars
+                if (!parts[3].isEmpty()) LocalDate.parse(parts[3]); // Date
+                if (!parts[4].isEmpty()) LocalTime.parse(parts[4], formatter); // Time
+                if (!parts[7].isEmpty()) Integer.parseInt(parts[7]); // Temperature
+                if (!parts[10].isEmpty()) Integer.parseInt(parts[10]); // # Locomotive Units
+                if (!parts[11].isEmpty()) Integer.parseInt(parts[11]); // # Cars
 
                 lineNum++;
             } catch (Exception e) {
@@ -69,6 +69,7 @@ public class Scrubber {
                 countErrs++;
             }
         }
+        br.close();
         System.out.println(String.format("%s: Read %d lines, Encountered %d errors.\n", csvpath, lineNum, countErrs));
     }
 }
