@@ -2,7 +2,7 @@ SHELL:=/bin/bash
 -include .env
 export CLASSPATH := .:ojdbc8.jar
 
-.PHONY: clean scrub example backup fetch login
+.PHONY: clean scrub prog3 example backup fetch login
 
 # clean local files
 clean: 
@@ -12,6 +12,11 @@ clean:
 scrub: highway*.csv clean
 	javac Scrubber.java
 	java Scrubber highway*.csv
+
+# run prog3 assignment
+prog3: clean
+	javac Prog3.java
+	java Prog3 $(ORACLE_URL) $(ORACLE_USERNAME) $(ORACLE_PASSWORD)
 
 # JDBC example
 example:
