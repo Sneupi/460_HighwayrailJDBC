@@ -83,24 +83,33 @@ public class Prog3 {
     }
 
     public static void executeQuery(String query, Connection dbconn) {
-        Statement stmt = null;
-        ResultSet answer = null;
 
-        try {
-
-            stmt = dbconn.createStatement();
-            answer = stmt.executeQuery(query);
-
+        try (Statement stmt = dbconn.createStatement();
+            ResultSet answer = stmt.executeQuery(query)) {
+            
             if (answer != null) {
                 System.out.println(Prog3.resultSetToString(answer));
             }
-
-            stmt.close();
 
         } catch (SQLException e) {
 
             System.err.println("*** SQLException:  "
                     + "Could not fetch query results.");
+            System.err.println("\tMessage:   " + e.getMessage());
+            System.err.println("\tSQLState:  " + e.getSQLState());
+            System.err.println("\tErrorCode: " + e.getErrorCode());
+        }
+    }
+
+    public static void executeUpdate(String sql, Connection dbconn) {
+        try (Statement stmt = dbconn.createStatement()) {
+
+            int rowsAffected = stmt.executeUpdate(sql);
+            System.out.println("Rows updated: " + rowsAffected);
+
+        } catch (SQLException e) {
+            System.err.println("*** SQLException:  "
+                    + "Could not process execute update.");
             System.err.println("\tMessage:   " + e.getMessage());
             System.err.println("\tSQLState:  " + e.getSQLState());
             System.err.println("\tErrorCode: " + e.getErrorCode());
@@ -114,12 +123,35 @@ public class Prog3 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         while (true) {
-            System.out.print("Enter SQL (or 'exit'): ");
+            System.out.print("Enter SQL (or 'help', 'exit'): ");
             try {
                 query = br.readLine();
                 if (query.equalsIgnoreCase("exit"))
                     break;
-                Prog3.executeQuery(query, dbconn);
+                else if (query.equalsIgnoreCase("help"))
+                    System.out.println(
+                    "\n\t(All other commands will be treated as SQL queries)\n\n"
+                    + "\t+t <file>           - Create Highwayrail table using\n"
+                    + "\t                      CSV file \"highwayrail????.csv\"\n"
+                    + "\t                      where ???? == year/tablename\n\n"
+                    + "\t-t <table>          - Drop Highwayrail table by \n"
+                    + "\t                     tablename (it's year)\n\n"
+                    + "\t?cy                 - Display incident count by year\n\n"
+                    + "\t?cs <year>          - Display incident count by state \n"
+                    + "\t                      (top 10, descend) for given year\n\n"
+                    + "\t?pd <year1> <year2> - Display largest % drop in \n"
+                    + "\t                      incident count by state (top 5, \n"
+                    + "\t                      descend) between given years\n\n"
+                    + "\t?pi <year1> <year2> - Display largest % increase in \n"
+                    + "\t                      incident count by state (top 5, \n"
+                    + "\t                      descend) between given years\n"
+                    );
+                else {
+                    if (query.toLowerCase().startsWith("select"))
+                        Prog3.executeQuery(query, dbconn);
+                    else
+                        Prog3.executeUpdate(query, dbconn);
+                }
             } catch (IOException e) {
                 System.err.println("Error reading input: " + e.getMessage());
             }
