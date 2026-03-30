@@ -50,7 +50,7 @@ create_tables: drop_tables
 # drop tables
 drop_tables:
 	javac DropTable.java
-	-java DropTable ${DB_USERNAME} highwayrail1980.csv ${DB_CLASSNAME} ${DB_URL}
-	-java DropTable ${DB_USERNAME} highwayrail1995.csv ${DB_CLASSNAME} ${DB_URL}
-	-java DropTable ${DB_USERNAME} highwayrail2010.csv ${DB_CLASSNAME} ${DB_URL}
-	-java DropTable ${DB_USERNAME} highwayrail2025.csv ${DB_CLASSNAME} ${DB_URL}
+	-java DropTable ${DB_USERNAME} 1980 ${DB_CLASSNAME} ${DB_URL}
+	-java DropTable ${DB_USERNAME} 1995 ${DB_CLASSNAME} ${DB_URL}
+	-java DropTable ${DB_USERNAME} 2010 ${DB_CLASSNAME} ${DB_URL}
+	-java DropTable ${DB_USERNAME} 2025 ${DB_CLASSNAME} ${DB_URL}

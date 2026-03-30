@@ -15,11 +15,11 @@ public class DropTable {
     public static void main(String[] args) {
 
         if (args.length != 4) {
-            System.out.println("\nUsage: java CreateTable <schemaName> <csvpath> <driverClass> <dbURL>\n\n"
+            System.out.println("\nUsage: java CreateTable <schemaName> <tableName> <driverClass> <dbURL>\n\n"
                     + "\t<schemaName>  : Name of schema which tables are created\n"
                     + "\t                (e.g. \"YOUR_USERNAME\")\n\n"
-                    + "\t<csvpath>     : A csv matching highwayrail*.csv\n"
-                    + "\t                (e.g. \"highwayrail2025.csv\")\n\n"
+                    + "\t<tableName>   : A name of an existing table at <schemaName>\n"
+                    + "\t                (e.g. for YOUR_USERNAME.TABLE_NAME, provide TABLE_NAME)\n\n"
                     + "\t<driverClass> : JDBC driver classname\n"
                     + "\t                (e.g. \"oracle.jdbc.OracleDriver\")\n\n"
                     + "\t<dbURL>       : Database URL\n"
@@ -29,7 +29,7 @@ public class DropTable {
 
         // Get user args
         String schemaName = args[0];
-        String csvpath = args[1];
+        String tableName = args[1];
         String driverClass = args[2];
         String dbURL = args[3];
 
@@ -42,16 +42,6 @@ public class DropTable {
                     + "\tPerhaps the driver is not on the Classpath?");
             System.exit(-1);
         }
-
-        // Check CSV valid
-        if (!csvpath.matches("^highwayrail.{4}\\.csv$") || !new File(csvpath).exists()) {
-            System.out.println(
-                    "Invalid CSV file \"" + csvpath + "\". Should be valid file of format: \"highwayrail????.csv\"");
-            System.exit(-1);
-        }
-        
-        // Get year (tablename)
-        String tableName = csvpath.substring(csvpath.length() - 8, csvpath.length() - 4);
 
         // Perform insertion of rows
         try (Connection dbconn = DriverManager.getConnection(dbURL);
