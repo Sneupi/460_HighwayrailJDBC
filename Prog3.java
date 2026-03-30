@@ -10,7 +10,7 @@ public class Prog3 {
             Class.forName(driverClass);
         } catch (ClassNotFoundException e) {
             System.err.println("*** ClassNotFoundException:  "
-                    + "Error loading JDBC driver \""+driverClass+"\"\n"
+                    + "Error loading JDBC driver \"" + driverClass + "\"\n"
                     + "\tPerhaps the driver is not on the Classpath?");
             System.exit(-1);
         }
@@ -37,9 +37,11 @@ public class Prog3 {
             driverClass = args[0];
             dbURL = args[1];
         } else {
-            System.out.println("\nUsage: java Prog3 <driverClass> <dbURL>\n"
-                    + "\t<driverClass> : JDBC driver classname (e.g. \"oracle.jdbc.OracleDriver\")\n"
-                    + "\t<dbURL>       : Database URL (e.g. \"jdbc:oracle:thin:YOUR_USERNAME/YOUR_PASSWORD@HOST:PORT:oracle\")\n");
+            System.out.println("\nUsage: java Prog3 <driverClass> <dbURL>\n\n"
+                    + "\t<driverClass> : JDBC driver classname\n"
+                    + "\t                (e.g. \"oracle.jdbc.OracleDriver\")\n\n"
+                    + "\t<dbURL>       : Database URL\n"
+                    + "\t                (e.g. \"jdbc:oracle:thin:YOUR_USERNAME/YOUR_PASSWORD@HOST:PORT:oracle\")\n");
             System.exit(-1);
         }
         return Prog3.getConnection(driverClass, dbURL);
@@ -85,8 +87,8 @@ public class Prog3 {
     public static void executeQuery(String query, Connection dbconn) {
 
         try (Statement stmt = dbconn.createStatement();
-            ResultSet answer = stmt.executeQuery(query)) {
-            
+                ResultSet answer = stmt.executeQuery(query)) {
+
             if (answer != null) {
                 System.out.println(Prog3.resultSetToString(answer));
             }
@@ -123,35 +125,42 @@ public class Prog3 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         while (true) {
-            System.out.print("Enter SQL (or 'help', 'exit'): ");
+            System.out.print("Enter a command (or 'help', 'exit'): ");
             try {
                 query = br.readLine();
                 if (query.equalsIgnoreCase("exit"))
                     break;
                 else if (query.equalsIgnoreCase("help"))
                     System.out.println(
-                    "\n\t(All other commands will be treated as SQL queries)\n\n"
-                    + "\t+t <file>           - Create Highwayrail table using\n"
-                    + "\t                      CSV file \"highwayrail????.csv\"\n"
-                    + "\t                      where ???? == year/tablename\n\n"
-                    + "\t-t <table>          - Drop Highwayrail table by \n"
-                    + "\t                     tablename (it's year)\n\n"
-                    + "\t?cy                 - Display incident count by year\n\n"
-                    + "\t?cs <year>          - Display incident count by state \n"
-                    + "\t                      (top 10, descend) for given year\n\n"
-                    + "\t?pd <year1> <year2> - Display largest % drop in \n"
-                    + "\t                      incident count by state (top 5, \n"
-                    + "\t                      descend) between given years\n\n"
-                    + "\t?pi <year1> <year2> - Display largest % increase in \n"
-                    + "\t                      incident count by state (top 5, \n"
-                    + "\t                      descend) between given years\n"
-                    );
-                else {
-                    if (query.toLowerCase().startsWith("select"))
-                        Prog3.executeQuery(query, dbconn);
-                    else
-                        Prog3.executeUpdate(query, dbconn);
-                }
+                            "\n\t(All other commands will be treated as SQL statements)\n\n"
+                                    + "\t?cy                 - Display incident count by year\n\n"
+                                    + "\t?cs <year>          - Display incident count by state \n"
+                                    + "\t                      (top 10, descend) for given year\n\n"
+                                    + "\t?pd <year1> <year2> - Display largest % drop in \n"
+                                    + "\t                      incident count by state (top 5, \n"
+                                    + "\t                      descend) between given years\n\n"
+                                    + "\t?pi <year1> <year2> - Display largest % increase in \n"
+                                    + "\t                      incident count by state (top 5, \n"
+                                    + "\t                      descend) between given years\n");
+
+                else if (query.toLowerCase().startsWith("?cy"))
+                    System.out.println("CY"); // TODO
+
+                else if (query.toLowerCase().startsWith("?cs"))
+                    System.out.println("CS"); // TODO
+
+                else if (query.toLowerCase().startsWith("?pd"))
+                    System.out.println("PD"); // TODO
+
+                else if (query.toLowerCase().startsWith("?pi"))
+                    System.out.println("PI"); // TODO
+
+                else if (query.toLowerCase().startsWith("select"))
+                    Prog3.executeQuery(query, dbconn);
+
+                else
+                    Prog3.executeUpdate(query, dbconn);
+
             } catch (IOException e) {
                 System.err.println("Error reading input: " + e.getMessage());
             }

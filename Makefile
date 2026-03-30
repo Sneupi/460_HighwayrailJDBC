@@ -2,7 +2,7 @@ SHELL:=/bin/bash
 -include .env
 export CLASSPATH := .:${DB_DRIVER}
 
-.PHONY: clean scrub prog3 example backup fetch login
+.PHONY: clean scrub prog3 example backup fetch login login_db
 
 # clean local files
 clean: 
@@ -35,3 +35,10 @@ fetch: clean
 # login to SSH
 login:
 	ssh ${SSH}
+
+# login to DB shell
+login_db:
+# for H2 db
+	java -cp h2*.jar org.h2.tools.Shell -url ${DB_URL}
+# for Oracle db
+# 	sqlpl ${DB_USERNAME}/${DB_PASSWORD}@oracle.aloe
