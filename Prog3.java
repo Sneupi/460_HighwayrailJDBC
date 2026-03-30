@@ -167,7 +167,7 @@ public class Prog3 {
                     + "\t<driverClass> : JDBC driver classname\n"
                     + "\t                (e.g. \"oracle.jdbc.OracleDriver\")\n\n"
                     + "\t<dbURL>       : Database URL\n"
-                    + "\t                (e.g. \"jdbc:oracle:thin:YOUR_USERNAME/YOUR_PASSWORD@HOST:PORT:oracle\")\n");
+                    + "\t                (e.g. \"jdbc:oracle:thin:YOUR_USERNAME/YOUR_PASSWORD@aloe.cs.arizona.edu:1521:oracle\")\n");
             System.exit(-1);
         }
 
@@ -205,24 +205,39 @@ public class Prog3 {
 
                 else if (query.equalsIgnoreCase("help"))
                     System.out.println(
-                                    "\n\t--------------------------------------------------------------\n\n"
-                                    + "\tNOTE:\n"
-                                    + "\tIn Oracle <schema> is user (student) which the tables are under\n\n"
-                                    + "\t(e.g. <schema>.TABLE_NAME)\n\n"
-                                    + "\t--------------------------------------------------------------\n\n"
-                                    + "\t?a <schema>                         - Display incident count by year\n\n"
-                                    + "\t?b <schema> <year>                  - Display incident count by state \n"
-                                    + "\t                                      (top 10, descend) for given year\n\n"
-                                    + "\t?c <schema> <year1> <year2>         - Display largest % drop in \n"
-                                    + "\t                                      incident count by state (top 5, \n"
-                                    + "\t                                      descend) between given years\n\n"
-                                    + "\t?d <schema> <year1> <year2> <field> - Display largest % drop in \n"
-                                    + "\t                                      incident count by field (top 10, \n"
-                                    + "\t                                      descend) between given years\n\n"
-                                    + "\t--------------------------------------------------------------\n\n"
-                                    + "\t(All other commands will be treated as SQL statements)\n\n"
-                                    + "\t--------------------------------------------------------------\n");
-
+                        "\n\t--------------------------------------------------------------\n\n"
+                        + "\tNOTE:\n"
+                        + "\tIn Oracle <schema> is user (student) which the tables are under\n\n"
+                        + "\t(e.g. <schema>.TABLE_NAME)\n\n"
+                        + "\t--------------------------------------------------------------\n\n"
+                        + "\t?tuple                              - Display highwayrail tuple fields & types\n\n"
+                        + "\t?a <schema>                         - Display incident count by year\n\n"
+                        + "\t?b <schema> <year>                  - Display incident count by state \n"
+                        + "\t                                      (top 10, descend) for given year\n\n"
+                        + "\t?c <schema> <year1> <year2>         - Display largest % drop in \n"
+                        + "\t                                      incident count by state (top 5, \n"
+                        + "\t                                      descend) between given years\n\n"
+                        + "\t?d <schema> <year1> <year2> <field> - Display largest % drop in \n"
+                        + "\t                                      incident count by field (top 10, \n"
+                        + "\t                                      descend) between given years\n\n"
+                        + "\t--------------------------------------------------------------\n\n"
+                        + "\t(All other commands will be treated as SQL statements)\n\n"
+                        + "\t--------------------------------------------------------------\n");
+                
+                else if (query.toLowerCase().startsWith("?tuple"))
+                    System.out.println(
+                        "\n\trailroad_code                VARCHAR2(100)\n"
+                        + "\tincident_number              VARCHAR2(100)\n"
+                        + "\tgrade_crossing_id            VARCHAR2(100)\n"
+                        + "\tdate_time                    TIMESTAMP\n"
+                        + "\tstate_name                   VARCHAR2(100)\n"
+                        + "\thighway_user                 VARCHAR2(100)\n"
+                        + "\ttemperature                  INT\n"
+                        + "\tvisibility                   VARCHAR2(100)\n"
+                        + "\tweather_condition            VARCHAR2(100)\n"
+                        + "\tnumber_of_locomotive_units   INT\n"
+                        + "\tnumber_of_cars               INT\n\n"
+                    );
 
                 else if (query.toLowerCase().startsWith("?a")) {
                     String schema = query.split("\\s+")[1];
