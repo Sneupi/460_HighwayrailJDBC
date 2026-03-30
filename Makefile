@@ -34,9 +34,9 @@ login:
 # login to DB shell
 login_db:
 # for H2 db
-#	java -cp h2*.jar org.h2.tools.Shell -url ${DB_URL}
+	java -cp h2*.jar org.h2.tools.Shell -url ${DB_URL}
 # for Oracle db
-	sqlpl ${DB_USERNAME}/${DB_PASSWORD}@oracle.aloe
+# 	sqlpl ${DB_USERNAME}/${DB_PASSWORD}@oracle.aloe
 
 # create tables
 create_tables: drop_tables
