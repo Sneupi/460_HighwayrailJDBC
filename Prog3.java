@@ -180,10 +180,12 @@ public class Prog3 {
         } catch (ClassNotFoundException e) {
             System.err.println("*** ClassNotFoundException:  "
                     + "Error loading JDBC driver \"" + driverClass + "\"\n"
-                    + "\tPerhaps the driver is not on the Classpath?\n"
+                    + "\tPerhaps the driver is not on the Classpath?\n\n"
                     + "Try adding the JDBC driver to your CLASSPATH env var:\n"
                     + "\t...given a path to driver (jar)...\n" 
-                    + "\texport CLASSPATH=driverpath:${CLASSPATH}");
+                    + "\texport CLASSPATH=driverpath:${CLASSPATH}\n"
+                    + "For CSC 460 on Lectura, use:\n"
+                    + "\texport CLASSPATH=/usr/lib/oracle/19.8/client64/lib/ojdbc8.jar:${CLASSPATH}");
             System.exit(-1);
         } catch (SQLException e) {
             e.printStackTrace();
